@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import backGround from '../images/road.png'
+import Display from './Display'
 import GreenCar from './GreenCar'
 import RedCar from './RedCar'
 
@@ -7,8 +8,10 @@ export default function Game() {
   const [goBottom,setGoBottom]=useState(10)
   const [goLeft, setGoLeft]=useState(125)
   const [start, setStart]=useState(false)
+  const [show, setShow]=useState('block')
   useEffect(()=>{
     if(start){
+      setShow('none')
        const end=setInterval(()=>{
         setGoBottom((prev=>prev+10))
       }, 200)
@@ -17,17 +20,18 @@ export default function Game() {
     }
     else if(!start){
       setGoBottom(10)
+      setShow('block')
     }
   },[start])
   useEffect(()=>{
     const a=localStorage.getItem('end-id')
-    if(goBottom>=320 && goBottom<500 && goLeft<=175 && goLeft>=75){
+    if(goBottom>=330 && goBottom<500 && goLeft<175 && goLeft>75){
         clearInterval(a)
-        console.log("Game Over!!")
+        alert("Game Over!!")
         setStart(false)
       }else if(goBottom===510){
         clearInterval(a)
-        console.log("You Win!!")
+        alert("You Win!!")
         setStart(false)
       }
   },[goBottom, goLeft])
@@ -58,8 +62,16 @@ export default function Game() {
         height: 500,
         backgroundSize: 'cover'
     }}>
+      <div style={{
+        textAlign: 'center',
+        padding: '250px 0',
+        fontSize: '30px',
+        color: '#fff',
+        display: show
+      }}>Press Enter!</div>
         <RedCar direc={goLeft}/>
         <GreenCar direc={goBottom}/>
+        <Display/>
     </div>
   )
 }
