@@ -1,12 +1,14 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import redCar from '../images/red-car.png'
+import { prp } from './Game'
 
 export default function RedCar(props) {
+  const direc=useContext(prp)
   return (
     <div style={{
         position: 'absolute',
         top: 400,
-        left: props.direc,
+        left: direc.goLeft,
         backgroundImage: `url(${redCar})`,
         backgroundSize: 'cover',
         rotate: '180deg',

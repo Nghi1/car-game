@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Display() {
+export default function Display(props) {
   return (
     <div style={{
         position: 'absolute',

@@ -1,14 +1,24 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef, createContext} from 'react'
 import backGround from '../images/road.png'
 import Display from './Display'
 import GreenCar from './GreenCar'
 import RedCar from './RedCar'
-
+export const prp=createContext()
 export default function Game() {
+  const right=useRef([50,125,200])
   const [goBottom,setGoBottom]=useState(10)
   const [goLeft, setGoLeft]=useState(125)
   const [start, setStart]=useState(false)
   const [show, setShow]=useState('block')
+  const [positionCar, setPositionCar]=useState([50])
+  useEffect(()=>{
+    if(start){
+       setInterval(()=>{
+      setPositionCar(prev=>[...prev, right.current[Math.floor(Math.random()*3)]]
+      )
+    }, 2000)
+    }
+  }, [start])
   useEffect(()=>{
     if(start){
       setShow('none')
@@ -23,6 +33,7 @@ export default function Game() {
       setShow('block')
     }
   },[start])
+  /*
   useEffect(()=>{
     const a=localStorage.getItem('end-id')
     if(goBottom>=330 && goBottom<500 && goLeft<175 && goLeft>75){
@@ -34,7 +45,7 @@ export default function Game() {
         alert("You Win!!")
         setStart(false)
       }
-  },[goBottom, goLeft])
+  },[goBottom, goLeft])*/
   useEffect(()=>{
     const handleMove=(e)=>{
       if(e.keyCode===65){
@@ -69,9 +80,11 @@ export default function Game() {
         color: '#fff',
         display: show
       }}>Press Enter!</div>
-        <RedCar direc={goLeft}/>
-        <GreenCar direc={goBottom}/>
-        <Display/>
+        <prp.Provider value={{goLeft, goBottom, positionCar, setStart}}>
+        <RedCar/>
+        <GreenCar/>
+        </prp.Provider>
+         <Display right={positionCar}/>
     </div>
   )
 }
