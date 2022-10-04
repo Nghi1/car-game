@@ -8,11 +8,11 @@ export default function Game() {
   const right=useRef([50,125,200])
   const [goBottom,setGoBottom]=useState(10)
   const [goLeft, setGoLeft]=useState(125)
-  const [start, setStart]=useState(false)
+  const [start, setStart]=useState('START')
   const [show, setShow]=useState('block')
   const [positionCar, setPositionCar]=useState([50])
   useEffect(()=>{
-    if(start){
+    if(start==='GO'){
        setInterval(()=>{
       setPositionCar(prev=>[...prev, right.current[Math.floor(Math.random()*3)]]
       )
@@ -20,7 +20,7 @@ export default function Game() {
     }
   }, [start])
   useEffect(()=>{
-    if(start){
+    if(start==='GO'){
       setShow('none')
        const end=setInterval(()=>{
         setGoBottom((prev=>prev+10))
@@ -28,24 +28,16 @@ export default function Game() {
       localStorage.clear()
       localStorage.setItem('end-id', end)
     }
-    else if(!start){
+    else if(start==='START'){
       setGoBottom(10)
       setShow('block')
     }
+    else if(start==='LOST'){
+      setGoBottom(10)
+      setShow('block')
+      clearInterval(localStorage.getItem('end-id'))
+    }
   },[start])
-  /*
-  useEffect(()=>{
-    const a=localStorage.getItem('end-id')
-    if(goBottom>=330 && goBottom<500 && goLeft<175 && goLeft>75){
-        clearInterval(a)
-        alert("Game Over!!")
-        setStart(false)
-      }else if(goBottom===510){
-        clearInterval(a)
-        alert("You Win!!")
-        setStart(false)
-      }
-  },[goBottom, goLeft])*/
   useEffect(()=>{
     const handleMove=(e)=>{
       if(e.keyCode===65){
@@ -54,7 +46,7 @@ export default function Game() {
          rightFunction()
       }
       else if(e.keyCode===13){
-        setStart(true)
+        setStart('GO')
       }
     }
     document.addEventListener('keypress', handleMove)
@@ -66,12 +58,14 @@ export default function Game() {
     setGoLeft((prev)=>prev+5)  
   }
   return (
+    <>
     <div style={{
         position: 'relative',
         backgroundImage: `url(${backGround})`,
         width: 300,
         height: 500,
-        backgroundSize: 'cover'
+        backgroundSize: 'cover',
+        overflow: 'hidden'
     }}>
       <div style={{
         textAlign: 'center',
@@ -79,12 +73,14 @@ export default function Game() {
         fontSize: '30px',
         color: '#fff',
         display: show
-      }}>Press Enter!</div>
+      }}>{start==='START'?<div>Press Enter!</div>:<div>You Lost!
+        &rarr;Enter</div>}</div>
         <prp.Provider value={{goLeft, goBottom, positionCar, setStart}}>
         <RedCar/>
         <GreenCar/>
         </prp.Provider>
-         <Display right={positionCar}/>
     </div>
+     <Display/>
+     </>
   )
 }

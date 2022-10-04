@@ -1,11 +1,8 @@
 import React from 'react'
 
-export default function Display(props) {
+export default function Display() {
   return (
     <div style={{
-        position: 'absolute',
-        right: -200,
-        bottom: 0,
         width: 200,
         height: 150,
         border: '1px solid #fff',

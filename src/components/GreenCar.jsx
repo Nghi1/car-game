@@ -15,7 +15,13 @@ export default function GreenCar() {
         backgroundSize: 'cover',
         transition: '0.5s',
         backgroundImage: `url(${greenCar})`
-    }}>{direc.goBottom-id*400>=330&&direc.goBottom-id*400<=420&&((item+50>=direc.goLeft&&item+50<=direc.goLeft+50)||(item-50<=direc.goLeft&&item+50>=direc.goLeft+50))&&(alert("You Lose!!"))}</div>
+    }}>{direc.goBottom-id*400>=330
+      &&direc.goBottom-id*400<=450
+      &&((item+50>=direc.goLeft
+      &&item+50<=direc.goLeft+50)
+      ||(item-50<=direc.goLeft
+      &&item+50>=direc.goLeft+50))
+      &&direc.setStart('LOST')}</div>
      )}</>:<h3>asd</h3>
   )
 }
