@@ -73,8 +73,8 @@ export default function Game() {
         fontSize: '30px',
         color: '#fff',
         display: show
-      }}>{start==='START'?<div>Press Enter!</div>:<div>You Lost!
-        &rarr;Enter</div>}</div>
+      }}>{start==='START'?<div>Press Enter!</div>:start==='LOST'?<div>You Lost!
+        &rarr;Enter</div>:<div></div>}</div>
         <prp.Provider value={{goLeft, goBottom, positionCar, setStart}}>
         <RedCar/>
         <GreenCar/>
